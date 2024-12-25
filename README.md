@@ -110,7 +110,7 @@ This will create a single-node Kafka cluster and launch both applications.
 
 
 ## Play
-- Please use the collection of Postman under the root folder
+- Please use the [collection of Postman](https://github.com/bugbug0102/quick-credit/blob/61fee9700a1606eadabb35ba820f3fd8886205e1/credit-card-application.postman_collection.json) under the root folder
 - Video: [YouTube](https://youtu.be/8nbF-rI4NR8)
 
 ## TODO
