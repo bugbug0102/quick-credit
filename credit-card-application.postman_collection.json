@@ -1,0 +1,324 @@
+{
+	"info": {
+		"_postman_id": "1eb85835-365c-49de-8919-cf8e554ac0f3",
+		"name": "credit-card-application",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "912714",
+		"_collection_link": "https://galactic-comet-430039.postman.co/workspace/quick-credit~9fb90f29-3bd0-4efa-bdc9-36f8ffa2b953/collection/912714-1eb85835-365c-49de-8919-cf8e554ac0f3?action=share&source=collection_link&creator=912714"
+	},
+	"item": [
+		{
+			"name": "add (approve)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.collectionVariables.set(\"applicationNumber\", responseBody);"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "request-id",
+						"value": "{{$guid}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"emirateIdNumber\": \"873-1984-3210485-2\"\n    ,\"name\": \"John Doe\"\n    ,\"mobileNumber\": \"98765432\"\n    ,\"nationality\": \"JP\"\n    ,\"address\": \"Anywhere\"\n    ,\"income\": \"100000\"\n    ,\"currentEmployer\": \"iSLOW Book Store Ltd\"\n    ,\"employmentStatus\": \"ACTIVE\"\n    ,\"requestedCreditLimit\": \"5000\"\n    ,\"bankStatement\": \"{{$guid}}\"\n\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/v1/credit-card-application-resource",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"v1",
+						"credit-card-application-resource"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "add (rejected due idv)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.collectionVariables.set(\"applicationNumber\", responseBody);"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "request-id",
+						"value": "{{$guid}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"emirateIdNumber\": \"873-0000-3210485-2\"\n    ,\"name\": \"John Doe\"\n    ,\"mobileNumber\": \"98765432\"\n    ,\"nationality\": \"JP\"\n    ,\"address\": \"Anywhere\"\n    ,\"income\": \"100000\"\n    ,\"currentEmployer\": \"iSLOW Book Store Ltd\"\n    ,\"employmentStatus\": \"ACTIVE\"\n    ,\"requestedCreditLimit\": \"5000\"\n    ,\"bankStatement\": \"{{$guid}}\"\n\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/v1/credit-card-application-resource",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"v1",
+						"credit-card-application-resource"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "add (rejected due to score)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.collectionVariables.set(\"applicationNumber\", responseBody);"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "request-id",
+						"value": "{{$guid}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"emirateIdNumber\": \"873-1986-3210485-2\"\n    ,\"name\": \"John Doe\"\n    ,\"mobileNumber\": \"98765432\"\n    ,\"nationality\": \"JP\"\n    ,\"address\": \"Anywhere\"\n    ,\"income\": \"0\"\n    ,\"currentEmployer\": \"NO\"\n    ,\"employmentStatus\": \"ACTIVE\"\n    ,\"requestedCreditLimit\": \"10001\"\n    ,\"bankStatement\": \"{{$guid}}\"\n\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/v1/credit-card-application-resource",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"v1",
+						"credit-card-application-resource"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "add (approved with condition)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.collectionVariables.set(\"applicationNumber\", responseBody);"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "request-id",
+						"value": "{{$guid}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"emirateIdNumber\": \"873-1984-3210485-2\"\n    ,\"name\": \"John Doe\"\n    ,\"mobileNumber\": \"98765432\"\n    ,\"nationality\": \"JP\"\n    ,\"address\": \"Anywhere\"\n    ,\"income\": \"100000\"\n    ,\"currentEmployer\": \"iSLOW Book Store Ltd\"\n    ,\"employmentStatus\": \"ACTIVE\"\n    ,\"requestedCreditLimit\": \"10001\"\n    ,\"bankStatement\": \"{{$guid}}\"\n\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/v1/credit-card-application-resource",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"v1",
+						"credit-card-application-resource"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "add (manual review)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.collectionVariables.set(\"applicationNumber\", responseBody);"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "request-id",
+						"value": "{{$guid}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"emirateIdNumber\": \"873-1984-3210485-2\"\n    ,\"name\": \"John Doe\"\n    ,\"mobileNumber\": \"98765432\"\n    ,\"nationality\": \"JP\"\n    ,\"address\": \"Anywhere\"\n    ,\"income\": \"1\"\n    ,\"currentEmployer\": \"iSLOW Book Store Ltd\"\n    ,\"employmentStatus\": \"ACTIVE\"\n    ,\"requestedCreditLimit\": \"10001\"\n    ,\"bankStatement\": \"{{$guid}}\"\n\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/v1/credit-card-application-resource",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"v1",
+						"credit-card-application-resource"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/v1/credit-card-application-resource/{{applicationNumber}}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"v1",
+						"credit-card-application-resource",
+						"{{applicationNumber}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "webhook",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"testing\": \"testing\"\n}",
+					"options": {
+						"raw": {
+							"language": "text"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://webhook.site/d35d2eb7-2ea5-4902-a9a9-1fa36b0e7163",
+					"protocol": "https",
+					"host": [
+						"webhook",
+						"site"
+					],
+					"path": [
+						"d35d2eb7-2ea5-4902-a9a9-1fa36b0e7163"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "applicationNumber",
+			"value": "56ab41d7-54d9-4d1b-83b2-5db3146a1666",
+			"type": "string"
+		}
+	]
+}
