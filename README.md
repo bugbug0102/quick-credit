@@ -92,7 +92,7 @@ All RESTful APIs are sitting on `credit-card-application-srv`, the rest of the m
 | credit-card-application-resource                     | POST   | Submit an application   | emirateIdNumber<br/>name<br/>mobileNumber<br/>nationality<br/>address<br/>income<br/>currentEmployer<br/>employmentStatus<br/>requestedCreditLimit<br/>bankStatement |
 | credit-card-application-resource/{applicationNumber} | GET    | Enquiry the application | -                                                                                                                                                       |
 
-
+To run the application in Docker, first make sure that both services are built:
 ```bash
 mvn package
 ```
