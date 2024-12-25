@@ -43,6 +43,47 @@ The application has a few classes:
   creditworthiness
 * `CreditCardVerificationProcessor` orchestrates the above providers and dispatches relevant events
 
+## Sequence Diagram (Happy Case)
+
+```mermaid
+sequenceDiagram
+    actor applicant
+    participant credit-card-application-srv
+    participant credit-card-application-srv-db
+    participant verification-srv
+    participant credit-card-srv
+    participant credit-card-srv-db
+    
+    applicant->>credit-card-application-srv: Submit (RESTful)
+    credit-card-application-srv->>credit-card-application-srv-db: Save application
+
+    credit-card-application-srv->>applicant: Reply application number
+    credit-card-application-srv->>verification-srv: Dispatch *Submit* Event (Kafka)
+    critical Mandatory Verification
+        verification-srv-->verification-srv: Do identity verification
+        verification-srv->>credit-card-application-srv: Dispatch *Identity Verification Complete* Event (Kafka)
+    end
+    par NonMandatory Verification
+        verification-srv-->verification-srv: Do behavioral analysis
+        verification-srv->>credit-card-application-srv: Dispatch *Behavioral Analysis Complete* Event (Kafka)
+
+        verification-srv-->verification-srv: Do compliance check
+        verification-srv->>credit-card-application-srv: Dispatch *Compliance Check Complete* Event (Kafka)
+
+        verification-srv-->verification-srv: Do employment verification
+        verification-srv->>credit-card-application-srv: Dispatch *Employment Verification Complete* Event (Kafka)
+
+        verification-srv-->verification-srv: Do risk evaluation
+        verification-srv->>credit-card-application-srv: Dispatch *Risk Evaluation Complete* Event (Kafka)
+    end
+
+    credit-card-application-srv->>credit-card-application-srv: Make decision & Save final status
+    credit-card-application-srv->>credit-card-srv: Dispatch *Approve* Event (Kafka)
+    credit-card-srv->>credit-card-srv-db: Save & Issue
+    credit-card-srv->>credit-card-application-srv: Dispatch *Issue* Event (Kafka)
+
+```
+
 ## API
 All RESTful APIs are sitting on `credit-card-application-srv`, the rest of the microservices are connected with Kafka. Please see Postman below .
 
@@ -66,13 +107,7 @@ This will create a single-node Kafka cluster and launch both applications.
 
 
 
-```mermaid
-graph TD;
-    A-->B;## Fun
-    A-->C;#### Postman: `credit-card-application.postman_collection.json`
-    B-->D;#### Video: `credit-card-application.postman_collection.json`
-    C-->D;
-```
+
 
 ## Play
 - Please use the collection of Postman under the root folder
