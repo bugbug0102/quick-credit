@@ -81,6 +81,7 @@ sequenceDiagram
     credit-card-application-srv->>credit-card-srv: Dispatch *Approve* Event (Kafka)
     credit-card-srv->>credit-card-srv-db: Save & Issue
     credit-card-srv->>credit-card-application-srv: Dispatch *Issue* Event (Kafka)
+    credit-card-application-srv->>applicant: Silent Push (TODO)
 
 ```
 
@@ -89,7 +90,7 @@ All RESTful APIs are sitting on `credit-card-application-srv`, the rest of the m
 
 | API                                                  | Method | Description             | Fields                                                                                                                                                  |
 |------------------------------------------------------|--------|-------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------|
-| credit-card-application-resource                     | POST   | Submit an application   | emirateIdNumber<br/>name<br/>mobileNumber<br/>nationality<br/>address<br/>income<br/>currentEmployer<br/>employmentStatus<br/>requestedCreditLimit<br/>bankStatement |
+| credit-card-application-resource                     | POST   | Submit an application   | <li>emirateIdNumber</li><li>name</li><li>mobileNumber</li><li>nationality</li><li>address</li><li>income</li><li>currentEmployer</li><li>employmentStatus</li><li>requestedCreditLimit</li><li>bankStatement</li>|
 | credit-card-application-resource/{applicationNumber} | GET    | Enquiry the application | -                                                                                                                                                       |
 
 To run the application in Docker, first make sure that both services are built:
