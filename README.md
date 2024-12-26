@@ -13,16 +13,16 @@ application request_ to the Kafka broker.
 Two main components compose the application:
 
 * `CreditCardApplicationService` handles the life-cycle of the onboarding and stores the requests
-  into H2 database. It also consumes the events from `verification-srv` for determining the status
+  into H2 database. It also consumes events from `verification-srv` for determining the status
   of the onboarding.
-* `DecisionService` decides the final status of the onboarding based on the downstream services
+* `DecisionService` decides the final status of the onboarding based on the downstream services.
 
 #### credit-card-srv
 
 The _consumer_ application receives approved credit card application and issues a credit card.
 The application has one main class:
 
-* `CreditCardIssueProcessor` consumes events ids from the `credit-card-application-srv` and proceed card issuing process
+* `CreditCardIssueProcessor` consumes events from the `credit-card-application-srv` and proceed card issuing process.
  
 #### verification-srv
 
@@ -30,18 +30,46 @@ The _consumer_ application receives verification request from upstream (i.e. `cr
 The application has a few classes:
 
 * `BehavioralAnalysisService` _MOCK_ handles analysis of spending habits and payment
-  history to predict future credit behavior 
+  history to predict future credit behavior.
 * `ComplianceCheckService`  _MOCK_ verifies that requests comply with local and
   international financial regulations, including anti-money laundering (AML) and
-  know your customer (KYC) standards. (Blacklist Check)
+  know your customer (KYC) standards. (Blacklist Check).
 * `EmploymentVerificationService` _MOCK_ verifies the employment details of credit card
   applicants to ensure they have a stable and reliable source of income, which is
   a significant indicator of their ability to meet credit obligations.
 * `IdentityVerificationService` _MOCK_ ensures the accuracy and authenticity of
  applicant personal information.
 * `RiskEvaluationService` _MOCK_ evaluates each applicant’s financial history to determine
-  creditworthiness
-* `CreditCardVerificationProcessor` orchestrates the above providers and dispatches relevant events
+  creditworthiness.
+* `CreditCardVerificationProcessor` orchestrates the above providers and dispatches relevant events.
+
+## State Diagram
+```mermaid
+graph TD
+    Start((Start)) -->|HTTP POST| Pending[Pending]
+    Pending -->|Submit Event| Idv{Identifiy Verification}
+    Idv --> |Identifiy Verification Complete Event - PASSED| Procesing[Procesing]
+    Idv --> |Identifiy Verification Complete Event - NOT PASSED| Rejected[Rejected]
+    Procesing --> Ba{Behaviour Analysis}
+    Procesing --> Cc{Compliance Check}
+    Procesing --> Ev{Employment Verification}
+    Procesing --> Rv{Risk Evaulation}
+
+    Ba-. Behaviour Analysis Complete Event .-> ProcessingIdv["Processing (Non Mandatory)"]
+    Cc-. Compliance Check Complete Event .-> ProcessingIdv["Processing (Non Mandatory)"]
+    Ev-. Employment Verification Complete Event .-> ProcessingIdv["Processing (Non Mandatory)"]
+    Rv-. Risk Verification Complete Event .-> ProcessingIdv["Processing (Non Mandatory)"]
+
+    ProcessingIdv --> Decide{Decide final onboarding status}
+    Decide --> Rejected[Rejected]
+    Decide --> Approved[Approved]
+    Decide --> Awc[Approved with condition]
+    Decide --> Mr[Manual Review]
+
+    Approved --> |Credit Card Issue Event| Issued["Approved & Issued"]
+    Awc --> |Credit Card Issue Event| Issued["Approved & Issued"] 
+
+```
 
 ## Sequence Diagram (Happy Case)
 
@@ -95,7 +123,7 @@ All RESTful APIs are sitting on `credit-card-application-srv`, the rest of the m
 
 To run the application in Docker, first make sure that both services are built:
 ```bash
-mvn package
+mvnw package
 ```
 
 Then launch Docker Compose:
@@ -107,17 +135,15 @@ docker-compose up
 This will create a single-node Kafka cluster and launch both applications.
 
 
-
-
-
 ## Play
 - Please use the [collection of Postman](https://github.com/bugbug0102/quick-credit/blob/61fee9700a1606eadabb35ba820f3fd8886205e1/credit-card-application.postman_collection.json) under the root folder
 - Video: [YouTube](https://youtu.be/8nbF-rI4NR8)
 
 ## TODO
-- File Handling such as AV scanning and buckets. A `Thread.sleep` was added currently for pretending a duration of file analysis 
-- Silent push. A `webhook` was installed in the `application.properties` for showing an event back to public once the card is issued 
-- RDS/NoSQL database. `H2` is used in everywhere. Supposedly, NoSQL is considered for customer facing data input  
+- File Handling such as AV scanning and buckets. A `Thread.sleep` was added currently for pretending a duration of file analysis.
+- Silent push. A `webhook` [https://webhook.site/#!/view/d35d2eb7-2ea5-4902-a9a9-1fa36b0e7163] was installed in the `application.properties` for showing an event back to public once the card is issued
+- Idempotency handling
+- RDS/NoSQL database. `H2` is used in everywhere. Supposedly, NoSQL is considered for customer facing data input.
 
 
 
