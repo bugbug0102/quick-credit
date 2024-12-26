@@ -10,8 +10,6 @@ import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
-import java.io.InputStream;
-import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 import org.b0102.credit.card.application.srv.service.CreditCardApplicationService;
@@ -57,11 +55,4 @@ public class CreditCardApplicationResource {
     );
     return creditApplicationService.addCreditCardApplication(caa);
   }
-
-
-  @Consumes(MediaType.MULTIPART_FORM_DATA)
-  public Uni<String> upload(final Map<String, InputStream> parts) {
-    return Uni.createFrom().item("hello");
-  }
-
 }
